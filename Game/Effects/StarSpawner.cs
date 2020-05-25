@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Engine.Extensions;
 using Engine;
+using System.Drawing;
 
 namespace Game
 {
@@ -37,13 +38,13 @@ namespace Game
                 SpawnStar();
             }
         }
-
+        Image Estrella = Properties.Resources.star;
         public void SpawnStar()
         {
-            Star star = new Star(Properties.Resources.star, rnd.Next(300));
+            Star star = new Star(Estrella, rnd.Next(300));
             star.Center = Center;
             Parent.AddChildBack(star);
-
+            
             CenterY = rnd.Next(Parent.Top.RoundedToInt(), Parent.Bottom.RoundedToInt());
         }
 
