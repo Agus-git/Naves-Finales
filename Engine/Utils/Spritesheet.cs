@@ -12,24 +12,15 @@ namespace Engine.Utils
     {
         public static Image[] Load(string fileName, Size size)
         {
-            return new Spritesheet(fileName).CutPieces(size);
+            return CutPieces(size, Image.FromFile(fileName));
         }
 
         public static Image[] Load(Image original, Size size)
         {
-            return new Spritesheet(original).CutPieces(size);
+            return CutPieces(size, original);
         }
 
-        private Image original;
-        
-        public Spritesheet(string fileName) : this(Image.FromFile(fileName)) {}
-
-        public Spritesheet(Image original)
-        {
-            this.original = original;
-        }
-
-        public Image[] CutPieces(Size size)
+        private static Image[] CutPieces(Size size, Image original)
         {
             List<Image> pieces = new List<Image>();
             int rows = original.Width / size.Width;
