@@ -34,6 +34,7 @@ namespace Game
                 img.RotateFlip(RotateFlipType.Rotate270FlipNone);
             }
             result = ships[shipIndex];
+            result.RotateFlip(RotateFlipType.RotateNoneFlipX);
             LoadImage();
 
             EventHandler.KeyDown += OnKeyDown;
@@ -187,7 +188,6 @@ namespace Game
         
         private Image LoadImage()
         {
-            result.RotateFlip(RotateFlipType.RotateNoneFlipX);
             Extent = new SizeF(result.Size.Width / 2, result.Size.Height / 2);
             return result;
         }
