@@ -13,16 +13,21 @@ namespace Game
     public class EnemyShip : GameObject
     {
         private static Random rnd = new Random();
-
-        private int shipIndex;
-        private EnemyBehavior behavior;
         
+        private EnemyBehavior behavior;
+
+        Image result;
         public EnemyShip(int shipIndex, EnemyBehavior behavior)
         {
-            this.shipIndex = shipIndex;
             this.behavior = behavior;
             
             Visible = false;
+            Image[] ships = Spritesheet.Load(@"Resources\shipsheetparts.png", new Size(200, 200));
+            foreach (Image img in ships)
+            {
+                img.RotateFlip(RotateFlipType.Rotate270FlipNone);
+            }
+            result = ships[shipIndex];
         }
 
         public PlayerShip Player
@@ -65,12 +70,6 @@ namespace Game
 
         private Image LoadImage()
         {
-            Image[] ships = Spritesheet.Load(@"Resources\shipsheetparts.png", new Size(200, 200));
-            foreach (Image img in ships)
-            {
-                img.RotateFlip(RotateFlipType.Rotate270FlipNone);
-            }
-            Image result = ships[shipIndex];
             Extent = new SizeF(result.Size.Width / 2, result.Size.Height / 2);
             return result;
         }
