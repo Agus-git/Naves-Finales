@@ -38,10 +38,9 @@ namespace Game
                 SpawnStar();
             }
         }
-        Image Estrella = Properties.Resources.star;
+        Star star = new Star(Properties.Resources.star);
         public void SpawnStar()
         {
-            Star star = new Star(Estrella, rnd.Next(300));
             star.Center = Center;
             Parent.AddChildBack(star);
             

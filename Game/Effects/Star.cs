@@ -14,13 +14,14 @@ namespace Game
     public class Star : GameObject
     {
         private Image img;
+        private Random rnd = new Random();
         float speed;
 
-        public Star(Image img, float speed)
+        public Star(Image img)
         {
+            this.speed = rnd.Next(300);
             int size = (0.16 * speed).FloorToInt().Max(1);
             this.img = new Bitmap(img, new Size(size, size));
-            this.speed = speed;
 
             Extent = this.img.Size;
             Visible = false;
