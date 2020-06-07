@@ -28,7 +28,7 @@ namespace Game
             Random rnd = new Random();
             GameObject world = scene.World;
             {
-                var noise = new[]
+                Bitmap[] noise = new[]
                 {
                     Properties.Resources.space_noise_1,
                     Properties.Resources.space_noise_2,
