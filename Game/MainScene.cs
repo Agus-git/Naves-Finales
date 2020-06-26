@@ -27,6 +27,7 @@ namespace Game
         {
             Random rnd = new Random();
             GameObject world = scene.World;
+            GameObject fondo = scene.Fondo;
             {
                 Bitmap[] noise = new[]
                 {
@@ -35,13 +36,13 @@ namespace Game
                     Properties.Resources.space_noise_3
                 };
 
-                world.AddChild(new SpaceNoise(noise[0], 3 * 1.5f, 1.00f, false, false));
-                world.AddChild(new SpaceNoise(noise[0], 3 * 2.5f, 2.00f, true, true));
-                world.AddChild(new SpaceNoise(noise[1], 3 * 3.5f, 1.50f, false, true));
-                world.AddChild(new SpaceNoise(noise[2], 3 * 5.5f, 2.00f, true, false));
+                fondo.AddChild(new SpaceNoise(noise[0], 3 * 1.5f, 1.00f, false, false, world));
+                fondo.AddChild(new SpaceNoise(noise[0], 3 * 2.5f, 2.00f, true, true, world));
+                fondo.AddChild(new SpaceNoise(noise[1], 3 * 3.5f, 1.50f, false, true, world));
+                fondo.AddChild(new SpaceNoise(noise[2], 3 * 5.5f, 2.00f, true, false, world));
             }
 
-            world.AddChild(new StarSpawner());
+            fondo.AddChild(new StarSpawner());
 
             EnemySpawner[] spawners = new EnemySpawner[]
             {
