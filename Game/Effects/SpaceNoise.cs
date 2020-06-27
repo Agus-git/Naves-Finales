@@ -53,11 +53,6 @@ namespace Game
 
         public override void DrawOn(Graphics graphics)
         {
-            FillScreenTiled(graphics);
-        }
-
-        public void FillScreenTiled(Graphics graphics)
-        {
             int w = Width.RoundedToInt();
             int h = Height.RoundedToInt();
             int x = Position.X.RoundedToInt();
@@ -69,7 +64,7 @@ namespace Game
             {
                 for (int y1 = y; y1 <= Parent.Bottom; y1 += h)
                 {
-                    graphics.DrawImage(Imagen, new Point(x1, y1));
+                    graphics.DrawImage(Imagen, x1, y1);
                 }
             }
         }
