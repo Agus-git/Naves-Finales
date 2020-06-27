@@ -28,12 +28,8 @@ namespace Game
 
         public PlayerShip(int shipIndex)
         {
-            Image[] ships = Spritesheet.Load(@"Resources\shipsheetparts.png", new Size(200, 200));
-            foreach (Image img in ships)
-            {
-                img.RotateFlip(RotateFlipType.Rotate270FlipNone);
-            }
-            result = ships[shipIndex];
+            
+            result = Spritesheet.Load(shipIndex);
             result.RotateFlip(RotateFlipType.RotateNoneFlipX);
             LoadImage();
 

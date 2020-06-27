@@ -10,32 +10,33 @@ namespace Engine.Utils
 {
     public class Spritesheet
     {
-        public static Image[] Load(string fileName, Size size)
+        public static Image Load(int indice)
         {
-            return CutPieces(size, Image.FromFile(fileName));
+            if (Images == null)
+                Images = CutPieces();
+            return Images[indice];
         }
+        
+        private static Image[] Images;
 
-        public static Image[] Load(Image original, Size size)
+        private static Image[] CutPieces()
         {
-            return CutPieces(size, original);
-        }
-
-        private static Image[] CutPieces(Size size, Image original)
-        {
+            Image Imagen = new Bitmap(@"Resources\shipsheetparts.png");
             List<Image> pieces = new List<Image>();
-            int rows = original.Width / size.Width;
-            int cols = original.Height / size.Height;
-            for (int j = 0; j < cols; j++)
+            int tamaño = Imagen.Width / 200;
+            for (int j = 0; j < tamaño; j++)
             {
-                for (int i = 0; i < rows; i++)
+                for (int i = 0; i < tamaño; i++)
                 {
-                    Image temp = new Bitmap(size.Width, size.Height);
+                    Image temp = new Bitmap(200, 200);
                     Graphics graphics = Graphics.FromImage(temp);
-                    graphics.DrawImage(original,
-                        new Rectangle(0, 0, size.Width, size.Height),
-                        new Rectangle(i * size.Width, j * size.Height, size.Width, size.Height),
+                    graphics.DrawImage(Imagen,
+                        new Rectangle(0, 0, 200, 200),
+                        new Rectangle(i * 200, j * 200, 200, 200),
                         GraphicsUnit.Pixel);
                     graphics.Dispose();
+
+                    temp.RotateFlip(RotateFlipType.Rotate270FlipNone);
                     pieces.Add(temp);
                 }
             }
