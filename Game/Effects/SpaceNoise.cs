@@ -12,59 +12,26 @@ namespace Game
 {
     public class SpaceNoise : GameObject
     {
-        private Bitmap image;
+        private Image image;
         float speed;
         float scale;
         bool flipX;
         bool flipY;
-        Point[] posiciones;
         Image Imagen;
-        Image Imagen2;
 
-        public SpaceNoise(Image image, float speed, float scale, bool flipX, bool flipY, GameObject padre)
+        public SpaceNoise(Image image, float speed, float scale, bool flipX, bool flipY)
         {
-            posiciones = new Point[2];
-            Parent = padre;
             this.speed = speed;
             this.scale = scale;
             this.flipX = flipX;
             this.flipY = flipY;
-            PrepararImagen(image, scale, flipX, flipY);
+            this.image = image;
 
-            Bitmap PreImage = new Bitmap((Parent.Right * 2).RoundedToInt(), Parent.Bottom.RoundedToInt());
-            Ensamblador(PreImage);
-            Divisor(PreImage);
-            posiciones[0] = new Point(0, 0);
-            posiciones[1] = new Point(PreImage.Size.Width / 2, 0);
-        }
-
-        private void Divisor(Bitmap preImage)
-        {
-            Image temp = new Bitmap(preImage.Size.Width / 2, preImage.Size.Height);
-            Graphics graphics = Graphics.FromImage(temp);
-            graphics.DrawImage(preImage,0,0,new Rectangle(0,0,temp.Size.Width, temp.Size.Height), GraphicsUnit.Pixel);
-            Imagen = temp;
-            graphics.DrawImage(preImage, preImage.Size.Width / 2, 0, new Rectangle(0, 0, temp.Size.Width, temp.Size.Height), GraphicsUnit.Pixel);
-            Imagen2 = temp;
-        }
-
-        private void PrepararImagen(Image image, float scale, bool flipX, bool flipY)
-        {
             Extent = new SizeF(image.Width * scale, image.Height * scale);
-            this.image = new Bitmap(image, new Size(Width.RoundedToInt(), Height.RoundedToInt()));
-            if (flipX) { this.image.RotateFlip(RotateFlipType.RotateNoneFlipX); }
-            if (flipY) { this.image.RotateFlip(RotateFlipType.RotateNoneFlipY); }
-        }
-        private void Ensamblador(Bitmap PreImage)
-        {
-            for (int x = 0; x < PreImage.Size.Width; x++)
-            {
-                int miX = x % this.image.Size.Width;
-                for (int y = 0; y < PreImage.Size.Height; y++)
-                {
-                    PreImage.SetPixel(x, y, this.image.GetPixel(miX, y % this.image.Size.Height));
-                }
-            }
+
+            Imagen = new Bitmap(image, new Size(Width.RoundedToInt(), Height.RoundedToInt()));
+            if (flipX) { Imagen.RotateFlip(RotateFlipType.RotateNoneFlipX); }
+            if (flipY) { Imagen.RotateFlip(RotateFlipType.RotateNoneFlipY); }
         }
 
         public override void Update(float deltaTime)
@@ -75,27 +42,36 @@ namespace Game
 
         private void MoveLeft(float deltaTime)
         {
-            for (int i = 0; i < posiciones.Length; i++)
-            {
-                posiciones[i].X -= (speed * deltaTime).RoundedToInt();
-            }
+            X -= speed * deltaTime;
         }
 
         private void KeepInsideScreen()
         {
-            for (int i = 0; i < posiciones.Length; i++)
-            {
-                if (posiciones[i].X < image.Height * -1)
-                {
-                    posiciones[i].X = 0;
-                }
-            }
+            X = X.Mod(Parent.Width);
+            Y = Y.Mod(Parent.Height);
         }
 
         public override void DrawOn(Graphics graphics)
         {
-            graphics.DrawImage(Imagen, posiciones[0]);
-            graphics.DrawImage(Imagen2, posiciones[1]);
+            FillScreenTiled(graphics);
+        }
+
+        public void FillScreenTiled(Graphics graphics)
+        {
+            int w = Width.RoundedToInt();
+            int h = Height.RoundedToInt();
+            int x = Position.X.RoundedToInt();
+            int y = Position.Y.RoundedToInt();
+            while (x >= Parent.Left) { x -= w; }
+            while (y >= Parent.Top) { y -= h; }
+
+            for (int x1 = x; x1 <= Parent.Right; x1 += w)
+            {
+                for (int y1 = y; y1 <= Parent.Bottom; y1 += h)
+                {
+                    graphics.DrawImage(Imagen, new Point(x1, y1));
+                }
+            }
         }
     }
 }

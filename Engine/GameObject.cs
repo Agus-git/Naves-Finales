@@ -275,7 +275,6 @@ namespace Engine
                 {
                     if (img.GetPixel(x,y).A > 0)
                     {
-
                         Point point = new Point(x, y);
                         if (globalCoordinates)
                         {

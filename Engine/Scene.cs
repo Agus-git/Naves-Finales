@@ -22,13 +22,11 @@ namespace Engine
 
         private Tally tally = new Tally();
         private GameObject world = new GameObject();
-        private GameObject fondo = new GameObject();
         private float lastStep = -1;
         private PointF cursorPosition;
 
         public Tally Tally { get { return tally; } }
         public GameObject World { get { return world; } }
-        public GameObject Fondo { get { return fondo; } }
 
         public PointF CursorPosition
         {
@@ -53,7 +51,6 @@ namespace Engine
             e.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
             e.Graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
             world.FullDrawOn(e.Graphics);
-            fondo.FullDrawOn(e.Graphics);
         }
 
         private void steppingTimer_Tick(object sender, EventArgs e)
@@ -64,9 +61,7 @@ namespace Engine
             {
                 tally.RegisterUpdate();
                 tally.RegisterInstances(world.AllChildren.LongCount());
-                tally.RegisterInstances(fondo.AllChildren.LongCount());
                 world.FullUpdate(delta, true);
-                fondo.FullUpdate(delta, true);
                 lastStep = now;
                 Refresh();
             }
