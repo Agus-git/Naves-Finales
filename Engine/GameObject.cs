@@ -265,30 +265,6 @@ namespace Engine
             }
         }
 
-        public IEnumerable<Point> NonTransparentPoints(bool globalCoordinates = true)
-        {
-            Bitmap img = Image;
-            List<Point> result = new List<Point>();
-            for (int x = 0; x < img.Width; x++)
-            {
-                for (int y = 0; y < img.Height; y++)
-                {
-                    if (img.GetPixel(x,y).A > 0)
-                    {
-                        Point point = new Point(x, y);
-                        if (globalCoordinates)
-                        {
-                            point = new Point(
-                                point.X + Left.RoundedToInt(),
-                                point.Y + Top.RoundedToInt());
-                        }
-                        result.Add(point);
-                    }
-                }
-            }
-            return result;
-        }
-
         public bool IsTransparentAt(PointF point, bool globalCoordinates = true)
         {
             return IsTransparentAt(new Point(point.X.RoundedToInt(), point.Y.RoundedToInt()));
@@ -322,8 +298,7 @@ namespace Engine
         public bool CollidesWith(GameObject obj)
         {
             return obj != null
-                && obj.Bounds.IntersectsWith(Bounds)
-                && obj.NonTransparentPoints().Intersect(NonTransparentPoints()).Any();
+                && obj.Bounds.IntersectsWith(Bounds);
         }
 
         public virtual void DrawOn(Graphics graphics)
