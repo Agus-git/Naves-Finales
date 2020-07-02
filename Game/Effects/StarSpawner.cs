@@ -14,6 +14,7 @@ namespace Game
     {
         private Random rnd = new Random();
         private bool firstFrame = true;
+        int Extremo;
 
         public override void Update(float deltaTime)
         {
@@ -32,19 +33,23 @@ namespace Game
 
         private void FillSpace(int numberOfStars)
         {
+            Extremo = Parent.Bottom.RoundedToInt();
+            image = Properties.Resources.star;
             for (int i = 0; i < numberOfStars; i++)
             {
                 CenterX = rnd.Next(Parent.Left.RoundedToInt(), Parent.Right.RoundedToInt());
                 SpawnStar();
             }
         }
-        Star star = new Star(Properties.Resources.star);
+        Image image;
+        Star star;
         public void SpawnStar()
         {
+            star = new Star(image);
             star.Center = Center;
             Parent.AddChildBack(star);
             
-            CenterY = rnd.Next(Parent.Top.RoundedToInt(), Parent.Bottom.RoundedToInt());
+            CenterY = rnd.Next(0, Extremo);
         }
 
     }
